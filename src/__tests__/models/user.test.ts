@@ -1,27 +1,27 @@
 import mongoose from 'mongoose';
-import User, { UserModel, UserDocument } from '@/models/user';
+import * as User from '@/models/user';
 import { connectMock, disconnectMock } from '@/utils/util';
 
 const initUsers = [{ name: 'user1' }, { name: 'user2' }, { name: 'user3' }];
-let users: UserDocument[] = [];
+let users: User.User[] = [];
 
 describe('model/user', () => {
   beforeAll(connectMock(mongoose, 'jest-models'));
   beforeEach(async () => {
-    await UserModel.deleteMany({});
-    users = await UserModel.insertMany(initUsers);
+    await User.UserModel.deleteMany({});
+    users = await User.UserModel.insertMany(initUsers);
   });
   afterAll(disconnectMock(mongoose));
 
-  describe('findList', () => {
+  describe('find', () => {
     test('should get user list', async () => {
-      const docs = await User.findList();
+      const docs = await User.find();
       expect(docs.length).toBe(3);
     });
   });
-  describe('find', () => {
+  describe('findOne', () => {
     test('should get user', async () => {
-      const doc = await User.find({ _id: users[0]._id });
+      const doc = await User.findOne({ _id: users[0]._id });
       if (!doc) {
         return;
       }
@@ -30,7 +30,7 @@ describe('model/user', () => {
       expect(mongoose.isValidObjectId(doc._id)).toBeTruthy();
     });
     test('should fail to get user', async () => {
-      await expect(User.find({ _id: '' })).rejects.toThrow();
+      await expect(User.findOne({ _id: '' })).rejects.toThrow();
     });
   });
   describe('create', () => {
@@ -43,7 +43,7 @@ describe('model/user', () => {
         await expect(User.create({ name: 'user1' })).rejects.toThrow();
       });
       test('should fail to create blank user', async () => {
-        await expect(User.create({} as UserDocument)).rejects.toThrow();
+        await expect(User.create({} as User.User)).rejects.toThrow();
       });
     });
   });

@@ -1,65 +1,38 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import {
+  prop,
+  defaultClasses,
+  modelOptions,
+  getModelForClass,
+} from '@typegoose/typegoose';
 
-interface UserSchema {
-  name: string;
-  createdAt?: Date;
+export interface User extends defaultClasses.Base {}
+
+@modelOptions({
+  schemaOptions: { collection: 'user' },
+})
+export class User extends defaultClasses.TimeStamps {
+  @prop({ unique: true })
+  public name!: string;
+
+  @prop()
+  authToken?: string;
 }
-export interface UserDocument extends Document, UserSchema {}
 
-const userSchema = new Schema<UserDocument>(
-  {
-    name: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  { collection: 'user' }
-);
+export const UserModel = getModelForClass(User);
 
-export const UserModel = mongoose.model<UserDocument>('User', userSchema);
-
-export default {
-  find: async (
-    query: Record<string, unknown>
-  ): Promise<UserDocument | null> => {
-    return new Promise((res, rej) => {
-      UserModel.findOne(query).exec((err, doc) => {
-        if (err) {
-          return rej(err);
-        }
-        res(doc);
-      });
-    });
-  },
-  findList: async (): Promise<UserDocument[]> => {
-    return new Promise((res, rej) => {
-      UserModel.find().exec((err, docs) => {
-        if (err) {
-          rej(err);
-        }
-        res(docs);
-      });
-    });
-  },
-  create: async (user: { name: string }): Promise<UserDocument> => {
-    return new Promise((res, rej) => {
-      if (!user || !user.name) {
-        return rej(new Error());
-      }
-      const newUser = new UserModel({
-        name: user.name,
-      });
-      newUser.save((err, doc) => {
-        if (err) {
-          rej(err);
-        }
-        res(doc);
-      });
-    });
-  },
+export const find = async (): Promise<User[]> => {
+  return UserModel.find();
+};
+export const findOne = async (
+  query: Record<string, unknown>
+): Promise<User | null> => {
+  return UserModel.findOne(query);
+};
+export const create = async (user: { name: string }): Promise<User> => {
+  if (!user || !user.name) {
+    throw new Error();
+  }
+  return UserModel.create({
+    name: user.name,
+  });
 };

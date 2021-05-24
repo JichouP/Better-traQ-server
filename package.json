@@ -24,12 +24,16 @@
   },
   "homepage": "https://github.com/JichouP/Better-traQ-server#readme",
   "dependencies": {
+    "@typegoose/typegoose": "^7.4.2",
     "express": "^4.17.1",
-    "mongoose": "^5.12.10",
-    "tsconfig-paths": "^3.9.0"
+    "mongoose": "^5.10.18",
+    "tsconfig-paths": "^3.9.0",
+    "zod": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.14.2",
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-typescript": "^7.13.0",
     "@shelf/jest-mongodb": "^1.2.4",
@@ -42,7 +46,7 @@
     "@typescript-eslint/parser": "^4.24.0",
     "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
-    "esbuild": "^0.12.1",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
