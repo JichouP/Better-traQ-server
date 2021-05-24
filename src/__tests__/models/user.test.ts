@@ -14,13 +14,13 @@ describe('model/user', () => {
   afterAll(disconnectMock(mongoose));
 
   describe('findList', () => {
-    test('shuld get user list', async () => {
+    test('should get user list', async () => {
       const docs = await User.findList();
       expect(docs.length).toBe(3);
     });
   });
   describe('find', () => {
-    test('shuld get user', async () => {
+    test('should get user', async () => {
       const doc = await User.find({ _id: users[0]._id });
       if (!doc) {
         return;
@@ -34,7 +34,7 @@ describe('model/user', () => {
     });
   });
   describe('create', () => {
-    test('shuld create user', async () => {
+    test('should create user', async () => {
       const doc = await User.create({ name: 'user4' });
       expect(doc.name).toBe('user4');
     });

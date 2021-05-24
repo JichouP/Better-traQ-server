@@ -19,7 +19,7 @@ describe('routes/user', () => {
   afterAll(disconnectMock(mongoose));
 
   describe('findList', () => {
-    test('shuld get user list', async () => {
+    test('should get user list', async () => {
       const { req, res, next } = createRequestMock();
 
       await User.findList(req, res, next);
@@ -28,7 +28,7 @@ describe('routes/user', () => {
     });
   });
   describe('find', () => {
-    test('shuld get user', async () => {
+    test('should get user', async () => {
       const { req, res, next } = createRequestMock({
         params: { id: users[0]._id },
       });
@@ -48,7 +48,7 @@ describe('routes/user', () => {
     });
   });
   describe('create', () => {
-    test('shuld create user', async () => {
+    test('should create user', async () => {
       const { req, res, next } = createRequestMock({ body: { name: 'user4' } });
 
       await User.create(req, res, next);
